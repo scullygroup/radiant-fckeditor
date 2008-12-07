@@ -50,7 +50,7 @@ class FckeditorController < ApplicationController
   xml.instruct!
     #=> <?xml version="1.0" encoding="utf-8" ?>
   xml.Connector("command" => params[:Command], "resourceType" => 'File') do
-    xml.CurrentFolder("url" => @url, "path" => params[:CurrentFolder])
+    xml.CurrentFolder("url" => @folder_url, "path" => params[:CurrentFolder])
     xml.Folders do
       @folders.each do |folder|
         xml.Folder("name" => folder)
@@ -93,7 +93,7 @@ class FckeditorController < ApplicationController
     @folders = Array.new
     @files = {}
     begin
-      @url = upload_directory_path
+      @folder_url = upload_directory_path
       @current_folder = current_directory_path
       Dir.entries(@current_folder).each do |entry|
         next if entry =~ /^\./
@@ -108,9 +108,9 @@ class FckeditorController < ApplicationController
 
   def create_folder
     begin 
-      @url = current_directory_path
-      path = @url + params[:NewFolderName]
-      if !(File.stat(@url).writable?)
+      @folder_url = current_directory_path
+      path = @folder_url + params[:NewFolderName]
+      if !(File.stat(@folder_url).writable?)
         @errorNumber = 103
       elsif params[:NewFolderName] !~ /[\w\d\s]+/
         @errorNumber = 102
@@ -128,7 +128,7 @@ class FckeditorController < ApplicationController
   def upload_file
     begin
       @new_file = check_file(params[:NewFile])
-      @url = upload_directory_path
+      @folder_url = upload_directory_path
       ftype = @new_file.content_type.strip
       if ! MIME_TYPES.include?(ftype)
         @errorNumber = 202
