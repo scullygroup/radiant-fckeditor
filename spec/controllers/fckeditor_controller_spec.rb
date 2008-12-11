@@ -51,4 +51,9 @@ describe FckeditorController do
     assigns(:folder_url).should == "/uploads/Page/parent"
   end
 
+  it "should render url for pages" do
+    get :command, :Command => 'GetFoldersAndFiles', :Type => 'Page', :CurrentFolder => '/parent'
+    response.body.should =~ /<File name=\"child\" size=\"1\" url=\"\/parent\/child\/\"\/>/
+  end
+
 end

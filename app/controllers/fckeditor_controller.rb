@@ -58,7 +58,9 @@ class FckeditorController < ApplicationController
     end if !@folders.nil?
     xml.Files do
       @files.keys.sort.each do |f|
-        xml.File("name" => f, "size" => @files[f])
+        attributes = {"name" => f, "size" => @files[f]}
+        attributes["url"] = @urls[f] if @urls
+        xml.File(attributes)
       end
     end if !@files.nil?
     xml.Error("number" => @errorNumber) if !@errorNumber.nil?
@@ -156,11 +158,13 @@ class FckeditorController < ApplicationController
   def get_pages
     @folders = Array.new
     @files = {}
+    @urls = {}
     @folder_url = upload_directory_path
     @current_folder = check_path("#{UPLOADED_ROOT}/#{params[:Type]}#{params[:CurrentFolder]}")
     Page.find_by_url(params[:CurrentFolder]).children.each do |child|
       @folders.push child.slug if child.children.count > 0
       @files[child.slug] = 1
+      @urls[child.slug] = child.url
     end
   end    
 
