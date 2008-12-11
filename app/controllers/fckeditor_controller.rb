@@ -78,52 +78,21 @@ class FckeditorController < ApplicationController
   end
 
   # figure out who needs to handle this request
-  def command   
+  def command
+    #raise "requires CurrentFolder param" if params[:CurrentFolder].blank?
     if params[:Command] == 'GetFoldersAndFiles' || params[:Command] == 'GetFolders'
-      get_folders_and_files
+      if params[:Type] == 'Page'
+        get_pages
+      else        
+        get_folders_and_files
+      end
     elsif params[:Command] == 'CreateFolder'
       create_folder
 	  elsif params[:Command] == 'FileUpload'
  	    upload_file
  	  end
  	  render :inline => RXML, :type => :rxml unless params[:Command] == 'FileUpload'
- 	end 
- 	
-  def get_folders_and_files(include_files = true)
-    @folders = Array.new
-    @files = {}
-    begin
-      @folder_url = upload_directory_path
-      @current_folder = current_directory_path
-      Dir.entries(@current_folder).each do |entry|
-        next if entry =~ /^\./
-        path = @current_folder + entry
-        @folders.push entry if FileTest.directory?(path)
-        @files[entry] = (File.size(path) / 1024) if (include_files and FileTest.file?(path))
-      end
-    rescue => e
-      @errorNumber = 110 if @errorNumber.nil?
-    end
-  end
-
-  def create_folder
-    begin 
-      @folder_url = current_directory_path
-      path = @folder_url + params[:NewFolderName]
-      if !(File.stat(@folder_url).writable?)
-        @errorNumber = 103
-      elsif params[:NewFolderName] !~ /[\w\d\s]+/
-        @errorNumber = 102
-      elsif FileTest.exists?(path)
-        @errorNumber = 101
-      else
-        Dir.mkdir(path,0775)
-        @errorNumber = 0
-      end
-    rescue => e
-      @errorNumber = 110 if @errorNumber.nil?
-    end
-  end
+ 	end
   
   def upload_file
     begin
@@ -166,6 +135,54 @@ class FckeditorController < ApplicationController
   end
   
   private
+  
+  def get_folders_and_files(include_files = true)
+    @folders = Array.new
+    @files = {}
+    begin
+      @folder_url = upload_directory_path
+      @current_folder = current_directory_path
+      Dir.entries(@current_folder).each do |entry|
+        next if entry =~ /^\./
+        path = @current_folder + entry
+        @folders.push entry if FileTest.directory?(path)
+        @files[entry] = (File.size(path) / 1024) if (include_files and FileTest.file?(path))
+      end
+    rescue => e
+      @errorNumber = 110 if @errorNumber.nil?
+    end
+  end
+
+  def get_pages
+    @folders = Array.new
+    @files = {}
+    @folder_url = upload_directory_path
+    @current_folder = check_path("#{UPLOADED_ROOT}/#{params[:Type]}#{params[:CurrentFolder]}")
+    Page.find_by_url(params[:CurrentFolder]).children.each do |child|
+      @folders.push child.slug if child.children.count > 0
+      @files[child.slug] = 1
+    end
+  end    
+
+  def create_folder
+    begin 
+      @folder_url = current_directory_path
+      path = @folder_url + params[:NewFolderName]
+      if !(File.stat(@folder_url).writable?)
+        @errorNumber = 103
+      elsif params[:NewFolderName] !~ /[\w\d\s]+/
+        @errorNumber = 102
+      elsif FileTest.exists?(path)
+        @errorNumber = 101
+      else
+        Dir.mkdir(path,0775)
+        @errorNumber = 0
+      end
+    rescue => e
+      @errorNumber = 110 if @errorNumber.nil?
+    end
+  end  
+  
   def current_directory_path
     base_dir = "#{UPLOADED_ROOT}/#{params[:Type]}"
     Dir.mkdir(base_dir,0775) unless File.exists?(base_dir)
