@@ -23,7 +23,7 @@
 
 body
 {
-	background-color: #f1f1e3;
+	background-color: #eae3c5;
 }
 
 form
@@ -34,7 +34,7 @@ form
 
 .Frame
 {
-	background-color: #f1f1e3;
+	background-color: #ffffff;
 	border-color: #f1f1e3;
 	border-right: thin inset;
 	border-top: thin inset;
@@ -51,8 +51,13 @@ body.FileArea
 
 body, td, input, select
 {
-	font-size: 11px;
-	font-family: 'Microsoft Sans Serif' , Arial, Helvetica, Verdana;
+	font-size: 12px;
+    font-family: "Lucida Grande", "Bitstream Vera Sans", Helvetica, Verdana, Arial, sans-serif;
+}
+
+#frmUpload
+{
+	background-color: #eae3c5;
 }
 
 .ActualFolder
@@ -61,7 +66,7 @@ body, td, input, select
 	font-size: 14px;
 }
 
-.PopupButtons
+/*.PopupButtons
 {
 	border-top: #d5d59d 1px solid;
 	background-color: #e3e3c7;
@@ -76,7 +81,7 @@ body, td, input, select
 	color: #3b3b1f;
 	border-bottom: #737357 1px solid;
 	background-color: #c7c78f;
-}
+}*/
 
 .FolderListCurrentFolder img
 {
