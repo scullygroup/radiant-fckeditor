@@ -5,7 +5,7 @@ class FckeditorExtension < Radiant::Extension
   version "0.5"
   description "Adds the FCKEditor editor - with file uploads and spell checking."
   url "http://github.com/djcp/radiant-fckeditor/tree/master"
- # ActionView::Base.send(:include, Fckeditor::Helper)
+   # ActionView::Base.send(:include, Fckeditor::Helper)
    define_routes do |map|
      map.connect 'fckeditor/:action', :controller => '/fckeditor'
 	 map.connect 'fckeditor/check_spelling', :controller => '/fckeditor', :action => 'check_spelling'
