@@ -1,32 +1,32 @@
-function instantiateFCKEditor(partIndex){
-	var usedFilter = $('part_' + partIndex +'_filter_id');
+function instantiateFCKEditor(partName){
+	var usedFilter = $('part_' + partName +'_filter_id');
 	if(usedFilter.value == 'Fckeditor'){
-		putInEditor(partIndex);
+		putInEditor(partName);
 	}
 }
 
-function toggleEditor(partIndex){
-	var filterId = $('part_' + partIndex + '_filter_id');
+function toggleEditor(partName){
+	var filterId = $('part_' + partName + '_filter_id');
 	if(filterId.value == 'Fckeditor'){
-		putInEditor('part_' + partIndex + '_content');
+		putInEditor(partName);
 	} else {
-		removeEditor('part_' + partIndex + '_content');
+		removeEditor(partName);
 	}
 }
 
-function removeEditor(partIndex){
-	var editorInstance = FCKeditorAPI.GetInstance('part_' + partIndex + '_content');
+function removeEditor(partName){
+	var editorInstance = FCKeditorAPI.GetInstance('part_' + partName + '_content');
 	editorInstance.UpdateLinkedField();
-	var editorContainer = $('part_' + partIndex + '_content___Frame');
+	var editorContainer = $('part_' + partName + '_content___Frame');
 	if(editorContainer){
 		editorContainer.parentNode.removeChild( editorContainer );
 	}
-	var textareaContainer = $('part_' + partIndex + '_content');
+	var textareaContainer = $('part_' + partName + '_content');
 	textareaContainer.style.display = '';
 }
 
-function putInEditor(partIndex){
-	var oFCKeditor = new FCKeditor('part_'+ partIndex +'_content', '600px', '600px', 'Default');
+function putInEditor(partName){
+	var oFCKeditor = new FCKeditor('part_' + partName + '_content', '600px', '600px', 'Default');
 	var page_type = $F('page_class_name');
 	oFCKeditor.BasePath = "/javascripts/fckeditor/"
 	oFCKeditor.Config['CustomConfigurationsPath'] = '/fckeditor/config?class_name=' + page_type;
