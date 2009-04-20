@@ -29,31 +29,21 @@ FCKConfig.ProtectedTags = '<%= @fck_tag_list %>' ;
 
 //FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/silver/';
 
-FCKConfig.ToolbarSets["Simple"] = [
-	['Source','-','-','Templates'],
-	['Cut','Copy','Paste','PasteWord','-','Print','SpellCheck'],
-	['Undo','Redo','-','Find','Replace','-','SelectAll'],
+FCKConfig.ToolbarSets["Default"] = [
+	['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
+	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
+	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
 	'/',
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-	['OrderedList','UnorderedList','-','Outdent','Indent'],
+	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink'],
+	['Link','Unlink','Anchor'],
+	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'],
 	'/',
-	['Image','Table','Rule','Smiley'],
-	['FontName','FontSize'],
+	['Style','FontFormat','FontName','FontSize'],
 	['TextColor','BGColor'],
-	['-','About']
-];
-FCKConfig.ToolbarSets["Default"] = [
-	['Source'],
-	['Cut','Copy','Paste','PasteWord'],
-	['Bold','Italic','Underline','StrikeThrough','-'],
-	['Undo','Redo','RemoveFormat'],
-	['OrderedList','UnorderedList','-'],
-	['JustifyLeft','JustifyCenter'],
-	['Link','Unlink'],
-	['Image','Table'],
-	['-','About']
-];
+	['FitWindow','ShowBlocks','-','About']		// No comma for the last row.
+] ;
 
 
