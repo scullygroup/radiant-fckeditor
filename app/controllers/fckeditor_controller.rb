@@ -29,6 +29,7 @@ class FckeditorController < ApplicationController
 	"text/plain",
 	"text/html",
 	"application/pdf",
+	"application/force-download",
 	"application/ogg",
 	"audio/mpeg",
 	"audio/mpegurl",
